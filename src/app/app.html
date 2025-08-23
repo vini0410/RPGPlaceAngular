@@ -1,11 +1,13 @@
-<div class="p-4">
-  <button (click)="toggleTheme()" class="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
-    Mudar para {{ themeText === 'Modo Escuro' ? 'Modo Claro' : 'Modo Escuro' }}
-  </button>
-  <h1 class="text-2xl font-bold">{{ themeText }} Ativado</h1>
-  <p class="mt-2">Este é o conteúdo principal da sua aplicação.</p>
-  <p class="mt-4 text-sm text-gray-500 dark:text-gray-400">
-    Este texto terá uma cor ligeiramente diferente no modo escuro.
-  </p>
+<div class="p-4 bg-background text-text min-h-screen">
+  <h1 class="text-2xl font-bold">Projeto RPGPlace</h1>
+  <p class="mt-2">Bem-vindo à sua aplicação.</p>
+
+  <div class="mt-4">
+    <button (click)="toggleTheme()" class="bg-primary text-white font-bold py-2 px-4 rounded">
+      Trocar Tema
+    </button>
+    <p class="mt-2">Tema atual: {{ theme() }}</p>
+  </div>
+
 </div>
 <router-outlet></router-outlet>

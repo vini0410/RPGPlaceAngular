@@ -1,4 +1,4 @@
-import { Component, signal, OnInit, OnDestroy } from '@angular/core';
+import { Component, signal, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
@@ -7,40 +7,26 @@ import { RouterOutlet } from '@angular/router';
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App implements OnInit, OnDestroy {
+export class App implements OnInit {
   protected readonly title = signal('RPGPlaceAngular');
-  themeText = 'Modo Claro';
-  private observer!: MutationObserver;
+  theme = signal<'claro' | 'escuro'>('claro');
 
   ngOnInit() {
-    this.updateThemeText();
-
-    this.observer = new MutationObserver(mutations => {
-      mutations.forEach(mutation => {
-        if (mutation.attributeName === 'class') {
-          this.updateThemeText();
-        }
-      });
-    });
-
-    this.observer.observe(document.documentElement, {
-      attributes: true
-    });
-  }
-
-  ngOnDestroy() {
-    this.observer.disconnect();
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      this.theme.set('escuro');
+      document.documentElement.classList.add('dark');
+    }
   }
 
   toggleTheme() {
-    document.documentElement.classList.toggle('dark');
-  }
-
-  private updateThemeText() {
-    if (document.documentElement.classList.contains('dark')) {
-      this.themeText = 'Modo Escuro';
-    } else {
-      this.themeText = 'Modo Claro';
-    }
+    this.theme.update(currentTheme => {
+      const newTheme = currentTheme === 'claro' ? 'escuro' : 'claro';
+      if (newTheme === 'escuro') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+      return newTheme;
+    });
   }
 }
