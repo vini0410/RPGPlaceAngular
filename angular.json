@@ -59,7 +59,8 @@
               "buildTarget": "RPGPlaceAngular:build:production"
             },
             "development": {
-              "buildTarget": "RPGPlaceAngular:build:development"
+              "buildTarget": "RPGPlaceAngular:build:development",
+              "proxyConfig": "proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"
