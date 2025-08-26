@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Header } from './components/header/header';
-import { ThemeService } from './services/theme';
+import { ThemeService } from './services/theme.service'; // Corrected import path
 
 @Component({
   selector: 'app-root',
@@ -9,6 +9,18 @@ import { ThemeService } from './services/theme';
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App {
+export class App implements OnInit {
+  isDarkTheme: boolean = false;
+
   constructor(private themeService: ThemeService) {}
+
+  ngOnInit(): void {
+    this.themeService.isDarkTheme.subscribe(isDark => {
+      this.isDarkTheme = isDark;
+    });
+  }
+
+  toggleTheme(): void {
+    this.themeService.toggleTheme();
+  }
 }
