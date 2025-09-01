@@ -1,0 +1,50 @@
+<div class="p-8 text-text flex-grow">
+  <!-- Back to Dashboard Link -->
+  <a routerLink="/dashboard" class="inline-flex items-center gap-2 text-primary hover:text-primary-dark transition-colors mb-6">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+    </svg>
+    <span>Back to Dashboard</span>
+  </a>
+
+  <div *ngIf="table; else loading">
+    <!-- Table Header -->
+    <div class="bg-surface p-6 rounded-lg shadow-md mb-8">
+      <h1 class="text-4xl font-bold text-primary">{{ table.title }}</h1>
+      <p class="text-lg text-text-muted mt-2">Rulebook: {{ table.rulebook }}</p>
+      <div class="mt-4">
+        <span class="text-sm font-semibold bg-primary-dark text-white py-1 px-3 rounded-full">
+          Access Code: {{ table.accessCode }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Characters Section -->
+    <div>
+      <h2 class="text-3xl font-semibold mb-6">Characters in this Table</h2>
+      <div *ngIf="characters.length > 0; else noCharacters" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <!-- Character Card -->
+        <div *ngFor="let character of characters" class="bg-surface p-5 rounded-lg shadow-sm hover:shadow-xl transition-shadow duration-300">
+          <h3 class="text-xl font-bold text-primary-light">{{ character.name }}</h3>
+          <div class="mt-4 space-y-2 text-sm">
+            <p><span class="font-semibold">Health:</span> {{ character.health }}</p>
+            <p><span class="font-semibold">Mana:</span> {{ character.mana }}</p>
+            <p><span class="font-semibold">Strength:</span> {{ character.strength }}</p>
+            <p><span class="font-semibold">Agility:</span> {{ character.agility }}</p>
+            <p><span class="font-semibold">Intelligence:</span> {{ character.intelligence }}</p>
+          </div>
+        </div>
+      </div>
+      <ng-template #noCharacters>
+        <div class="flex flex-col items-center justify-center p-12 border-2 border-dashed border-primary rounded-lg">
+          <p class="text-lg text-text-muted">No characters have been created for this table yet.</p>
+        </div>
+      </ng-template>
+    </div>
+
+  </div>
+
+  <ng-template #loading>
+    <p class="text-center text-lg text-text-muted">Loading game details...</p>
+  </ng-template>
+</div>

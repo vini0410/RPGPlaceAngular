@@ -9,5 +9,10 @@ export interface UserResponseDTO {
 export interface UserRequestDTO {
   name: string;
   email: string;
-  password: string;
+  password?: string;
+}
+
+export interface UserUpdateRequestDTO {
+  name: string;
+  email: string;
 }
