@@ -24,6 +24,10 @@ export class CharacterService {
     return this.http.get<CharacterResponseDTO[]>(this.API_URL);
   }
 
+  getMyCharacters(): Observable<CharacterResponseDTO[]> {
+    return this.http.get<CharacterResponseDTO[]>(`${this.API_URL}/my-characters`);
+  }
+
   getCharacterById(id: string): Observable<CharacterResponseDTO> {
     return this.http.get<CharacterResponseDTO>(`${this.API_URL}/${id}`);
   }

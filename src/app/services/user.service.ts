@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { UserRequestDTO, UserResponseDTO } from '../models/user.model';
+import { UserRequestDTO, UserResponseDTO, UserUpdateRequestDTO } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -19,8 +19,8 @@ export class UserService {
     return this.http.get<UserResponseDTO>(`${this.API_URL}/${id}`);
   }
 
-  updateUser(id: string, user: UserRequestDTO): Observable<UserResponseDTO> {
-    return this.http.put<UserResponseDTO>(`${this.API_URL}/${id}`, user);
+  updateUser(id: string, user: UserUpdateRequestDTO): Observable<UserResponseDTO> {
+    return this.http.patch<UserResponseDTO>(`${this.API_URL}/${id}`, user);
   }
 
   deleteUser(id: string): Observable<void> {

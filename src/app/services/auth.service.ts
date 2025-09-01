@@ -1,16 +1,20 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Injectable, signal } from '@angular/core';
+import { Observable, tap } from 'rxjs';
 import { RegisterRequestDTO } from '../models/auth.model';
+import { LoginResponseDTO } from '../models/login.model';
 import { UserResponseDTO } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly API_URL = '/api/auth';
+  private readonly API_URL = 'http://localhost:8080/auth';
+  private isAuthenticated = signal<boolean>(false);
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.isAuthenticated.set(!!this.getToken());
+  }
 
   register(registerRequest: RegisterRequestDTO): Observable<UserResponseDTO> {
     return this.http.post<UserResponseDTO>(
@@ -19,11 +23,35 @@ export class AuthService {
     );
   }
 
-  login(loginRequest: any): Observable<any> {
-    return this.http.post<any>(`${this.API_URL}/login`, loginRequest);
+  login(loginRequest: any): Observable<LoginResponseDTO> {
+    return this.http.post<LoginResponseDTO>(`${this.API_URL}/login`, loginRequest).pipe(
+      tap(response => {
+        if (response && response.token) {
+          localStorage.setItem('jwt_token', response.token);
+          localStorage.setItem('currentUser', JSON.stringify(response.user));
+          this.isAuthenticated.set(true);
+        }
+      })
+    );
   }
 
   logout(): Observable<any> {
-    return this.http.post<any>(`${this.API_URL}/logout`, {});
+    localStorage.removeItem('jwt_token');
+    localStorage.removeItem('currentUser');
+    this.isAuthenticated.set(false);
+    return this.http.post<any>(`http://localhost:8080/logout`, {});
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem('jwt_token');
+  }
+
+  getCurrentUser(): UserResponseDTO | null {
+    const user = localStorage.getItem('currentUser');
+    return user ? JSON.parse(user) : null;
+  }
+
+  getIsAuthenticated() {
+    return this.isAuthenticated();
   }
 }
