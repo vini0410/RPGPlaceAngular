@@ -1,36 +1,77 @@
-<div class="flex items-center justify-center h-screen bg-background">
-  <div class="w-full max-w-md p-8 space-y-6 bg-surface rounded-lg shadow-md">
+<div class="flex flex-col h-full mt-[20vh]">
+  <div class="w-full max-w-md p-8 space-y-6 bg-surface rounded-lg shadow-md m-auto ">
     <h1 class="text-2xl font-bold text-center text-text">Login</h1>
     <form [formGroup]="loginForm" (ngSubmit)="login()" class="space-y-6">
       <div class="form-field w-full">
-        <label *ngIf="loginForm.get('email')?.value || loginForm.get('email')?.dirty || loginForm.get('email')?.touched" class="block text-text text-sm font-bold mb-2">Email</label>
+        <label
+          *ngIf="
+            loginForm.get('email')?.value ||
+            loginForm.get('email')?.dirty ||
+            loginForm.get('email')?.touched
+          "
+          class="block text-text text-sm font-bold mb-2"
+          >Email</label
+        >
         <input
-          [ngClass]="{'border-red-500 text-red-500': loginForm.get('email')?.invalid && (loginForm.get('email')?.dirty || loginForm.get('email')?.touched)}"
+          [ngClass]="{
+            'border-red-500 text-red-500':
+              loginForm.get('email')?.invalid &&
+              (loginForm.get('email')?.dirty || loginForm.get('email')?.touched)
+          }"
           class="shadow appearance-none border rounded w-full py-2 px-3 text-text leading-tight focus:outline-none focus:shadow-outline bg-surface"
           type="email"
           formControlName="email"
           placeholder="Email"
+        />
+        <div
+          *ngIf="
+            loginForm.get('email')?.invalid &&
+            (loginForm.get('email')?.dirty || loginForm.get('email')?.touched)
+          "
+          class="text-red-500 text-xs italic mt-1"
         >
-        <div *ngIf="loginForm.get('email')?.invalid && (loginForm.get('email')?.dirty || loginForm.get('email')?.touched)" class="text-red-500 text-xs italic mt-1">
           <div *ngIf="loginForm.get('email')?.errors?.['required']">Email is required.</div>
           <div *ngIf="loginForm.get('email')?.errors?.['email']">Email is invalid.</div>
         </div>
       </div>
       <div class="form-field w-full">
-        <label *ngIf="loginForm.get('password')?.value || loginForm.get('password')?.dirty || loginForm.get('password')?.touched" class="block text-text text-sm font-bold mb-2">Password</label>
+        <label
+          *ngIf="
+            loginForm.get('password')?.value ||
+            loginForm.get('password')?.dirty ||
+            loginForm.get('password')?.touched
+          "
+          class="block text-text text-sm font-bold mb-2"
+          >Password</label
+        >
         <input
-          [ngClass]="{'border-red-500 text-red-500': loginForm.get('password')?.invalid && (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)}"
+          [ngClass]="{
+            'border-red-500 text-red-500':
+              loginForm.get('password')?.invalid &&
+              (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)
+          }"
           class="shadow appearance-none border rounded w-full py-2 px-3 text-text leading-tight focus:outline-none focus:shadow-outline bg-surface"
           type="password"
           formControlName="password"
           placeholder="Password"
+        />
+        <div
+          *ngIf="
+            loginForm.get('password')?.invalid &&
+            (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)
+          "
+          class="text-red-500 text-xs italic mt-1"
         >
-        <div *ngIf="loginForm.get('password')?.invalid && (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)" class="text-red-500 text-xs italic mt-1">
           <div *ngIf="loginForm.get('password')?.errors?.['required']">Password is required.</div>
         </div>
       </div>
-      <button type="submit" [disabled]="loginForm.invalid" class="w-full px-4 py-2 font-medium text-white bg-primary rounded-md hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50">Login</button>
+      <button
+        type="submit"
+        [disabled]="loginForm.invalid"
+        class="w-full px-4 py-2 font-medium text-white bg-primary rounded-md hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50"
+      >
+        Login
+      </button>
     </form>
   </div>
 </div>
-
