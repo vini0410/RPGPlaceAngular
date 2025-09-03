@@ -22,3 +22,13 @@ export interface CharacterRequestDTO {
   userId: string;
   tableId: string;
 }
+
+export interface CharacterUpdateDTO {
+  id: string;
+  name: string;
+  health: number;
+  mana: number;
+  strength: number;
+  agility: number;
+  intelligence: number;
+}

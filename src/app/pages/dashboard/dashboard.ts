@@ -85,6 +85,7 @@ export class Dashboard implements OnInit {
 
       this.characterService.createCharacter(characterData).subscribe(() => {
         this.loadCharacters();
+        this.loadTables();
         this.closeModal();
       });
     });
