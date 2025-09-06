@@ -1,38 +1,55 @@
-<div class="container mx-auto p-4 text-gray-200">
-  <h1 class="text-2xl font-bold mb-4">Game Table: {{ tableId }}</h1>
-
-  <div *ngIf="characters().length === 0" class="text-gray-400">
-    No characters in this table yet. Waiting for players...
+<div class="flex h-full bg-gray-900 text-gray-200">
+  <!-- Character List Sidebar (Left) -->
+  <div class="w-3/10 bg-gray-800 flex flex-col">
+    <div class="p-4 flex flex-col h-full">
+      <h2 class="text-xl font-bold mb-4 flex-shrink-0">Characters</h2>
+      <div class="overflow-y-auto flex-grow">
+        <div *ngIf="characters().length === 0" class="text-gray-400">
+          No characters yet.
+        </div>
+        <div class="space-y-4">
+          @for (char of characters(); track char.id) {
+            <div class="bg-gray-700 shadow-md rounded-lg p-4 border border-gray-600">
+              <h3 class="text-lg font-semibold mb-2 text-white">{{ char.name }}</h3>
+              <div class="grid grid-cols-1 gap-2">
+                <div>
+                  <label [for]="'health-' + char.id" class="block text-sm font-medium text-gray-300">Health</label>
+                  <input type="number" [id]="'health-' + char.id" [(ngModel)]="char.health" (change)="onAttributeChange(char)" [disabled]="!canEdit(char)" class="mt-1 block w-full rounded-md bg-gray-600 border-gray-500 text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm disabled:opacity-50">
+                </div>
+                <div>
+                  <label [for]="'mana-' + char.id" class="block text-sm font-medium text-gray-300">Mana</label>
+                  <input type="number" [id]="'mana-' + char.id" [(ngModel)]="char.mana" (change)="onAttributeChange(char)" [disabled]="!canEdit(char)" class="mt-1 block w-full rounded-md bg-gray-600 border-gray-500 text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm disabled:opacity-50">
+                </div>
+              </div>
+              <div class="text-xs text-gray-400 mt-2">Owner: {{ char.userId }}</div>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-    @for (char of characters(); track char.id) {
-      <div class="bg-gray-800 shadow-md rounded-lg p-4 border border-gray-700">
-        <h2 class="text-xl font-semibold mb-2 text-white">{{ char.name }}</h2>
-        <div class="grid grid-cols-2 gap-2">
-          <div>
-            <label [for]="'health-' + char.id" class="block text-sm font-medium text-gray-300">Health</label>
-            <input type="number" [id]="'health-' + char.id" [(ngModel)]="char.health" (change)="onAttributeChange(char)" class="mt-1 block w-full rounded-md bg-gray-700 border-gray-600 text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-          </div>
-          <div>
-            <label [for]="'mana-' + char.id" class="block text-sm font-medium text-gray-300">Mana</label>
-            <input type="number" [id]="'mana-' + char.id" [(ngModel)]="char.mana" (change)="onAttributeChange(char)" class="mt-1 block w-full rounded-md bg-gray-700 border-gray-600 text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-          </div>
-          <div>
-            <label [for]="'strength-' + char.id" class="block text-sm font-medium text-gray-300">Strength</label>
-            <input type="number" [id]="'strength-' + char.id" [(ngModel)]="char.strength" (change)="onAttributeChange(char)" class="mt-1 block w-full rounded-md bg-gray-700 border-gray-600 text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-          </div>
-          <div>
-            <label [for]="'agility-' + char.id" class="block text-sm font-medium text-gray-300">Agility</label>
-            <input type="number" [id]="'agility-' + char.id" [(ngModel)]="char.agility" (change)="onAttributeChange(char)" class="mt-1 block w-full rounded-md bg-gray-700 border-gray-600 text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-          </div>
-          <div>
-            <label [for]="'intelligence-' + char.id" class="block text-sm font-medium text-gray-300">Intelligence</label>
-            <input type="number" [id]="'intelligence-' + char.id" [(ngModel)]="char.intelligence" (change)="onAttributeChange(char)" class.ts="mt-1 block w-full rounded-md bg-gray-700 border-gray-600 text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-          </div>
+  <!-- Main Content Area (Center) -->
+  <div class="w-2/5 flex flex-col">
+    <div class="p-4 flex flex-col h-full">
+      <div class="overflow-y-auto flex-grow">
+        <div class="bg-gray-800 p-6 h-full rounded-lg shadow-md">
+          <h2 class="text-xl font-semibold text-white">Main Content</h2>
+          <p class="text-gray-400 mt-2">This is the main content area.</p>
         </div>
-        <div class="text-xs text-gray-500 mt-2">Owner User ID: {{ char.userId }}</div>
       </div>
-    }
+    </div>
+  </div>
+
+  <!-- Right Sidebar -->
+  <div class="w-3/10 bg-gray-800 flex flex-col">
+    <div class="p-4 flex flex-col h-full">
+      <h2 class="text-xl font-bold mb-4 flex-shrink-0">Tools</h2>
+      <div class="overflow-y-auto flex-grow">
+        <div class="bg-gray-700 p-6 h-full rounded-lg shadow-md">
+          <p class="text-gray-400 mt-2">Dice, notes, etc.</p>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
