@@ -1,6 +1,11 @@
-<div class="flex h-full bg-gray-900 text-gray-200">
+<div class="relative flex h-full w-full bg-gray-900 text-gray-200 fullhd:flex">
   <!-- Character List Sidebar (Left) -->
-  <div class="w-3/10 bg-gray-800 flex flex-col">
+  <div class="bg-gray-800 flex-col" [ngClass]="{
+    'fixed inset-y-0 left-0 z-20 w-1/3 transform transition-transform duration-300 ease-in-out': isSmallScreen,
+    'translate-x-0': isLeftSidebarOpen,
+    '-translate-x-full': !isLeftSidebarOpen && isSmallScreen,
+    'fullhd:relative fullhd:w-1/3': !isSmallScreen
+  }">
     <div class="p-4 flex flex-col h-full">
       <h2 class="text-xl font-bold mb-4 flex-shrink-0">Characters</h2>
       <div class="overflow-y-auto flex-grow">
@@ -11,7 +16,7 @@
           @for (char of characters(); track char.id) {
             <div class="bg-gray-700 shadow-md rounded-lg p-4 border border-gray-600">
               <h3 class="text-lg font-semibold mb-2 text-white">{{ char.name }}</h3>
-              <div class="grid grid-cols-1 gap-2">
+              <div class="grid grid-cols-2 gap-4">
                 <div>
                   <label [for]="'health-' + char.id" class="block text-sm font-medium text-gray-300">Health</label>
                   <input type="number" [id]="'health-' + char.id" [(ngModel)]="char.health" (change)="onAttributeChange(char)" [disabled]="!canEdit(char)" class="mt-1 block w-full rounded-md bg-gray-600 border-gray-500 text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm disabled:opacity-50">
@@ -19,6 +24,18 @@
                 <div>
                   <label [for]="'mana-' + char.id" class="block text-sm font-medium text-gray-300">Mana</label>
                   <input type="number" [id]="'mana-' + char.id" [(ngModel)]="char.mana" (change)="onAttributeChange(char)" [disabled]="!canEdit(char)" class="mt-1 block w-full rounded-md bg-gray-600 border-gray-500 text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm disabled:opacity-50">
+                </div>
+                <div>
+                  <label [for]="'strength-' + char.id" class="block text-sm font-medium text-gray-300">Strength</label>
+                  <input type="number" [id]="'strength-' + char.id" [(ngModel)]="char.strength" (change)="onAttributeChange(char)" [disabled]="!canEdit(char)" class="mt-1 block w-full rounded-md bg-gray-600 border-gray-500 text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm disabled:opacity-50">
+                </div>
+                <div>
+                  <label [for]="'agility-' + char.id" class="block text-sm font-medium text-gray-300">Agility</label>
+                  <input type="number" [id]="'agility-' + char.id" [(ngModel)]="char.agility" (change)="onAttributeChange(char)" [disabled]="!canEdit(char)" class="mt-1 block w-full rounded-md bg-gray-600 border-gray-500 text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm disabled:opacity-50">
+                </div>
+                <div>
+                  <label [for]="'intelligence-' + char.id" class="block text-sm font-medium text-gray-300">Intelligence</label>
+                  <input type="number" [id]="'intelligence-' + char.id" [(ngModel)]="char.intelligence" (change)="onAttributeChange(char)" [disabled]="!canEdit(char)" class="mt-1 block w-full rounded-md bg-gray-600 border-gray-500 text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm disabled:opacity-50">
                 </div>
               </div>
               <div class="text-xs text-gray-400 mt-2">Owner: {{ char.userId }}</div>
@@ -30,26 +47,70 @@
   </div>
 
   <!-- Main Content Area (Center) -->
-  <div class="w-2/5 flex flex-col">
+  <div class="fullhd:flex-grow">
     <div class="p-4 flex flex-col h-full">
       <div class="overflow-y-auto flex-grow">
-        <div class="bg-gray-800 p-6 h-full rounded-lg shadow-md">
-          <h2 class="text-xl font-semibold text-white">Main Content</h2>
-          <p class="text-gray-400 mt-2">This is the main content area.</p>
+        <div class="bg-gray-800 p-2 h-full rounded-lg shadow-md flex flex-col items-center">
+          <h2 class="text-xl font-semibold text-white mb-4">Collaborative Whiteboard</h2>
+          <div class="flex items-center mb-4">
+            <label for="colorPicker" class="mr-2 text-white">Color:
+              <input id="colorPicker" type="color" [(ngModel)]="drawColor" class="w-8 h-8">
+            </label>
+            <label for="brushSize" class="ml-4 mr-2 text-white">Size:
+              <input id="brushSize" type="range" min="1" max="20" [(ngModel)]="brushSize" class="w-32">
+            </label>
+          </div>
+          <canvas #canvas width="900" height="400" class="bg-white rounded-md"></canvas>
         </div>
       </div>
     </div>
   </div>
 
   <!-- Right Sidebar -->
-  <div class="w-3/10 bg-gray-800 flex flex-col">
+  <div class="bg-gray-800 flex-col" [ngClass]="{
+    'fixed inset-y-0 right-0 z-20 w-1/3 transform transition-transform duration-300 ease-in-out': isSmallScreen,
+    'translate-x-0': isRightSidebarOpen,
+    'translate-x-full': !isRightSidebarOpen && isSmallScreen,
+    'fullhd:relative fullhd:w-1/3': !isSmallScreen
+  }">
     <div class="p-4 flex flex-col h-full">
-      <h2 class="text-xl font-bold mb-4 flex-shrink-0">Tools</h2>
-      <div class="overflow-y-auto flex-grow">
-        <div class="bg-gray-700 p-6 h-full rounded-lg shadow-md">
-          <p class="text-gray-400 mt-2">Dice, notes, etc.</p>
+      <h2 class="text-xl font-bold mb-4 flex-shrink-0">Chat</h2>
+      <div class="flex-grow bg-gray-700 rounded-lg p-4 flex flex-col">
+        <div class="flex-grow overflow-y-auto mb-4 space-y-4">
+          <div *ngFor="let message of messages" class="flex" [ngClass]="{
+            'justify-end': message.senderId === currentUserId,
+            'justify-start': message.senderId !== currentUserId
+          }">
+            <div class="rounded-lg p-3 max-w-xs" [ngClass]="{
+              'bg-blue-500 text-white': message.senderId === currentUserId,
+              'bg-gray-600 text-gray-200': message.senderId !== currentUserId
+            }">
+              <div class="text-xs font-bold mb-1">{{ message.characterName }} - {{ message.senderName }}</div>
+              <p class="text-sm">{{ message.text }}</p>
+              <div class="text-xs text-gray-400 mt-1 text-right">{{ message.timestamp | date:'shortTime' }}</div>
+            </div>
+          </div>
+        </div>
+        <div class="flex-shrink-0">
+          <form (ngSubmit)="sendMessage()">
+            <div class="flex">
+              <input type="text" [(ngModel)]="newMessage" name="newMessage" class="flex-grow bg-gray-600 rounded-l-lg p-2 text-white focus:outline-none" placeholder="Type a message...">
+              <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-r-lg">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
   </div>
+
+  <!-- Floating Buttons for Small Screens -->
+  <button *ngIf="isSmallScreen" (click)="toggleLeftSidebar()" class="fixed top-1/2 left-2 z-30 p-2 bg-blue-500 text-white rounded-full shadow-lg">
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+  </button>
+  <button *ngIf="isSmallScreen" (click)="toggleRightSidebar()" class="fixed top-1/2 right-2 z-30 p-2 bg-blue-500 text-white rounded-full shadow-lg">
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+  </button>
 </div>
+/div>
