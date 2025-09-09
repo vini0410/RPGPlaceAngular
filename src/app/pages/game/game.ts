@@ -101,7 +101,7 @@ export class GameComponent implements OnInit, OnDestroy, AfterViewInit {
   ngAfterViewInit(): void {
     const canvas = this.canvasRef.nativeElement;
     this.ctx = canvas.getContext('2d')!;
-
+    this.resizeCanvas();
     this.setupCanvasDrawing();
   }
 
@@ -183,6 +183,22 @@ export class GameComponent implements OnInit, OnDestroy, AfterViewInit {
   @HostListener('window:resize', ['$event'])
   onResize(event: any): void {
     this.checkScreenSize();
+    this.resizeCanvas();
+  }
+
+  private resizeCanvas(): void {
+    const canvas = this.canvasRef.nativeElement;
+    if (!canvas) return;
+
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width;
+    canvas.height = rect.height;
+
+    // Re-apply drawing styles
+    if (this.ctx) {
+      this.ctx.lineCap = 'round';
+      this.ctx.lineJoin = 'round';
+    }
   }
 
   private setupCanvasDrawing(): void {
@@ -257,11 +273,11 @@ export class GameComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private checkScreenSize(): void {
-    this.isSmallScreen = window.innerWidth < 1920; // fullhd breakpoint
-    if (!this.isSmallScreen) { // On large screens, sidebars are always open
-      this.isLeftSidebarOpen = true;
-      this.isRightSidebarOpen = true;
-    } else { // On small screens, sidebars are closed by default
+    const wasSmall = this.isSmallScreen;
+    this.isSmallScreen = window.innerWidth < 1024; // lg breakpoint
+
+    // If we switched from large to small, ensure sidebars are closed
+    if (!wasSmall && this.isSmallScreen) {
       this.isLeftSidebarOpen = false;
       this.isRightSidebarOpen = false;
     }
