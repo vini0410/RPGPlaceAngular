@@ -274,7 +274,7 @@ export class GameComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private checkScreenSize(): void {
     const wasSmall = this.isSmallScreen;
-    this.isSmallScreen = window.innerWidth < 1024; // lg breakpoint
+        this.isSmallScreen = window.innerWidth < 1536; // 2xl breakpoint
 
     // If we switched from large to small, ensure sidebars are closed
     if (!wasSmall && this.isSmallScreen) {

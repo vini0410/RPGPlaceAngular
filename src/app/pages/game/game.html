@@ -1,25 +1,25 @@
-<div class="flex-grow p-4 gap-4 overflow-hidden relative lg:grid lg:grid-cols-[400px_1fr_400px]">
+<div class="h-full p-4 gap-4 overflow-hidden relative 2xl:grid 2xl:grid-cols-[400px_1fr_400px]">
   <!-- Backdrop for mobile panel view -->
-  <div *ngIf="(isLeftSidebarOpen || isRightSidebarOpen) && isSmallScreen" (click)="isLeftSidebarOpen = false; isRightSidebarOpen = false" class="fixed inset-0 bg-black/60 z-30 lg:hidden" aria-hidden="true"></div>
+  <div *ngIf="(isLeftSidebarOpen || isRightSidebarOpen) && isSmallScreen" (click)="isLeftSidebarOpen = false; isRightSidebarOpen = false" class="fixed inset-0 bg-black/60 z-30 2xl:hidden" aria-hidden="true"></div>
 
   <!-- Mobile Toggle Buttons -->
-  <button *ngIf="isSmallScreen" (click)="toggleLeftSidebar()" class="lg:hidden fixed top-1/2 -translate-y-1/2 left-0 z-40 rounded-l-none shadow-lg p-2 bg-gray-700 text-white">
+  <button *ngIf="isSmallScreen" (click)="toggleLeftSidebar()" class="2xl:hidden fixed top-1/2 -translate-y-1/2 left-0 z-40 rounded-l-none shadow-lg p-2 bg-gray-700 text-white">
     <!-- Heroicon: users -->
     <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-4.67c.12-.318.232-.656.328-1.003M7.86 15.75l-.223.044a4.125 4.125 0 01-4.121-.952 9.337 9.337 0 01-1.588-3.951 9.337 9.337 0 011.588-3.951 4.125 4.125 0 014.121-.952 9.337 9.337 0 013.951 1.588 4.125 4.125 0 01.952 4.121 9.337 9.337 0 01-3.951 1.588 4.125 4.125 0 01-.952 4.121z" /></svg>
   </button>
-  <button *ngIf="isSmallScreen" (click)="toggleRightSidebar()" class="lg:hidden fixed top-1/2 -translate-y-1/2 right-0 z-40 rounded-r-none shadow-lg p-2 bg-gray-700 text-white">
+  <button *ngIf="isSmallScreen" (click)="toggleRightSidebar()" class="2xl:hidden fixed top-1/2 -translate-y-1/2 right-0 z-40 rounded-r-none shadow-lg p-2 bg-gray-700 text-white">
     <!-- Heroicon: chat-bubble-left-right -->
     <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193l-3.722.465c-.54.067-.994.499-1.121 1.034a8.053 8.053 0 01-1.732 2.186 8.053 8.053 0 01-2.186 1.732c-.535.127-1.034.581-1.034 1.121l-.465 3.722c-.093 1.133-1.057 1.98-2.193 1.98h-4.286c-.97 0-1.813-.616-2.097-1.5l-.31-.93c-.079-.236-.275-.431-.51-.51l-.93-.31c-.97-.324-1.5-1.25-1.5-2.097v-4.286c0-1.136.847-2.1 1.98-2.193l3.722-.465c.54-.067.994-.499 1.121-1.034a8.053 8.053 0 011.732-2.186 8.053 8.053 0 012.186-1.732c.535-.127 1.034-.581 1.034-1.121l.465-3.722c.093-1.133 1.057-1.98 2.193-1.98h4.286c.97 0 1.813.616 2.097 1.5l.31.93c.079-.236.275-.431-.51-.51l.93.31z" /></svg>
   </button>
 
   <!-- Characters Panel (Left) -->
   <aside 
-    class="bg-gray-800 rounded-lg border-gray-700 flex-col z-50 lg:flex lg:w-[400px]"
+    class="bg-gray-800 rounded-lg border-gray-700 flex-col z-50 2xl:flex 2xl:w-[400px]"
     [ngClass]="{
       'hidden': isSmallScreen && !isLeftSidebarOpen,
       'flex fixed inset-0 portrait:w-5/6 landscape:w-1/2': isSmallScreen && isLeftSidebarOpen
     }">
-    <button (click)="isLeftSidebarOpen = false" class="lg:hidden absolute top-2 right-2 text-gray-400 hover:text-white">
+    <button (click)="isLeftSidebarOpen = false" class="2xl:hidden absolute top-2 right-2 text-gray-400 hover:text-white">
       <!-- Heroicon: x-mark -->
       <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
     </button>
@@ -62,7 +62,7 @@
   </aside>
 
   <!-- Main Content Area (Whiteboard) -->
-  <section class="z-0 lg:flex lg:items-center lg:justify-center">
+  <section class="z-0 flex items-center justify-center">
     <div class="relative w-[900px] h-[600px] bg-gray-800 p-2 rounded-lg shadow-md flex flex-col items-center">
         
         <div class="flex items-center mb-4">
@@ -79,14 +79,14 @@
 
   <!-- Chat Panel (Right) -->
   <aside 
-    class="bg-gray-800 rounded-lg border-gray-700 flex-col z-50 lg:flex lg:w-[400px]"
+    class="bg-gray-800 rounded-lg border-gray-700 flex-col z-50 2xl:flex 2xl:w-[400px]"
     [ngClass]="{
       'hidden': isSmallScreen && !isRightSidebarOpen,
       'flex fixed inset-0 portrait:w-5/6 landscape:w-1/2': isSmallScreen && isRightSidebarOpen
     }"
     [style.left]="isSmallScreen ? 'auto' : ''"
     [style.right]="isSmallScreen ? '0' : ''">
-    <button (click)="isRightSidebarOpen = false" class="lg:hidden absolute top-2 left-2 text-gray-400 hover:text-white">
+    <button (click)="isRightSidebarOpen = false" class="2xl:hidden absolute top-2 left-2 text-gray-400 hover:text-white">
       <!-- Heroicon: x-mark -->
       <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
     </button>
