@@ -38,16 +38,15 @@ export class MyAccount implements OnInit {
         name: this.editableUser.name,
         email: this.editableUser.email
       };
-      this.userService.updateUser(this.editableUser.id, updateUserRequest).subscribe({
-        next: (updatedUser) => {
-          this.currentUser = updatedUser;
-          localStorage.setItem('currentUser', JSON.stringify(updatedUser));
-          this.notificationService.showSuccess('Profile updated successfully!');
-          this.router.navigate(['/dashboard']);
+      this.userService.updateUser(this.currentUser.id, updatedUser).subscribe({
+        next: (response) => {
+          this.notificationService.showSuccess('Account updated successfully!');
+          this.authService.setCurrentUser(response);
+          this.currentUser = response;
         },
         error: (err) => {
-          this.notificationService.showError('Failed to update profile.');
-          console.error('Error updating user:', err);
+          this.notificationService.showError('Failed to update account.');
+          console.error(err);
         }
       });
     }

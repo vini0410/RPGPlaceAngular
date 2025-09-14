@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, Signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
-import { ThemeService } from '../../services/theme';
+import { ThemeService } from '../../services/theme.service';
 import { HeaderService } from '../../services/header.service';
 import { Subscription } from 'rxjs';
 
@@ -16,13 +16,16 @@ export class Header implements OnInit, OnDestroy {
   isDropdownOpen = false;
   tableName: string | null = null;
   private tableNameSubscription: Subscription | undefined;
+  isAuthenticated: Signal<boolean>;
 
   constructor(
     private authService: AuthService,
     private router: Router,
     private themeService: ThemeService,
     private headerService: HeaderService
-  ) {}
+  ) {
+    this.isAuthenticated = this.authService.isAuthenticated;
+  }
 
   ngOnInit(): void {
     this.tableNameSubscription = this.headerService.tableName$.subscribe(name => {
@@ -34,10 +37,6 @@ export class Header implements OnInit, OnDestroy {
     if (this.tableNameSubscription) {
       this.tableNameSubscription.unsubscribe();
     }
-  }
-
-  get isAuthenticated(): boolean {
-    return this.authService.getIsAuthenticated();
   }
 
   get theme(): Signal<'claro' | 'escuro'> {

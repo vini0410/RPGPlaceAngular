@@ -10,10 +10,11 @@ import { UserResponseDTO } from '../models/user.model';
 })
 export class AuthService {
   private readonly API_URL = 'http://localhost:8080/auth';
-  private isAuthenticated = signal<boolean>(false);
+  private isAuthenticatedSignal = signal<boolean>(false);
+  public isAuthenticated = this.isAuthenticatedSignal.asReadonly();
 
   constructor(private http: HttpClient) {
-    this.isAuthenticated.set(!!this.getToken());
+    this.isAuthenticatedSignal.set(!!this.getToken());
   }
 
   register(registerRequest: RegisterRequestDTO): Observable<UserResponseDTO> {
@@ -29,7 +30,7 @@ export class AuthService {
         if (response && response.token) {
           localStorage.setItem('jwt_token', response.token);
           localStorage.setItem('currentUser', JSON.stringify(response.user));
-          this.isAuthenticated.set(true);
+          this.isAuthenticatedSignal.set(true);
         }
       })
     );
@@ -38,7 +39,7 @@ export class AuthService {
   logout(): Observable<any> {
     localStorage.removeItem('jwt_token');
     localStorage.removeItem('currentUser');
-    this.isAuthenticated.set(false);
+    this.isAuthenticatedSignal.set(false);
     return this.http.post<any>(`http://localhost:8080/logout`, {});
   }
 
@@ -51,7 +52,7 @@ export class AuthService {
     return user ? JSON.parse(user) : null;
   }
 
-  getIsAuthenticated() {
-    return this.isAuthenticated();
+  setCurrentUser(user: UserResponseDTO): void {
+    localStorage.setItem('currentUser', JSON.stringify(user));
   }
 }

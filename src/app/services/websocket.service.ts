@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import * as Stomp from 'stompjs';
 import SockJS from 'sockjs-client';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -9,14 +9,15 @@ import { AuthService } from './auth.service';
 })
 export class WebSocketService {
   private stompClient: Stomp.Client | null = null;
-  private connection$: Subject<boolean> = new Subject<boolean>();
+  private connectionSignal = signal<boolean>(false);
+  public connection = this.connectionSignal.asReadonly();
 
   constructor(private authService: AuthService) {}
 
-  connect(): Observable<boolean> {
+  connect(): void {
     if (this.stompClient && this.stompClient.connected) {
-      this.connection$.next(true);
-      return this.connection$.asObservable();
+      this.connectionSignal.set(true);
+      return;
     }
 
     const token = this.authService.getToken();
@@ -30,19 +31,17 @@ export class WebSocketService {
     };
 
     this.stompClient.connect(headers, (frame) => {
-      this.connection$.next(true);
+      this.connectionSignal.set(true);
     }, (error) => {
       console.error('Connection error: ' + error);
-      this.connection$.next(false);
+      this.connectionSignal.set(false);
     });
-
-    return this.connection$.asObservable();
   }
 
   disconnect() {
     if (this.stompClient) {
         this.stompClient.disconnect(() => {
-        this.connection$.next(false);
+        this.connectionSignal.set(false);
         this.stompClient = null;
       });
     }

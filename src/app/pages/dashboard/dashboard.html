@@ -2,10 +2,12 @@
   <h1 class="text-2xl font-bold mb-4">Dashboard</h1>
 
   <!-- Welcome Card -->
-  <div *ngIf="userName" class="bg-surface p-6 rounded-lg shadow-md mb-8">
-    <h2 class="text-2xl font-semibold text-primary">Welcome back, {{ userName }}!</h2>
-    <p class="text-text-muted mt-2">Here's an overview of your tables and characters. Jump back in!</p>
-  </div>
+  @if (userName) {
+    <div class="bg-surface p-6 rounded-lg shadow-md mb-8">
+      <h2 class="text-2xl font-semibold text-primary">Welcome back, {{ userName }}!</h2>
+      <p class="text-text-muted mt-2">Here's an overview of your tables and characters. Jump back in!</p>
+    </div>
+  }
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
     <!-- Owned Tables Section -->
@@ -14,18 +16,21 @@
         <h2 class="text-xl font-semibold">Your Owned Tables</h2>
         <button (click)="openCreateTableModal()" class="bg-primary text-white px-4 py-2 rounded-md hover:bg-primary-dark transition-colors">Create New Table</button>
       </div>
-      <div *ngIf="ownedTables.length === 0" class="flex flex-col items-center justify-center p-8 border-2 border-dashed border-primary rounded-lg">
-        <p class="mb-4 text-text-muted">No owned tables found. Create one to get started!</p>
-      </div>
-      <div *ngIf="ownedTables.length > 0">
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <a *ngFor="let table of ownedTables" [routerLink]="['/game', table.id]" class="block bg-background p-4 rounded-lg shadow-sm hover:shadow-lg hover:bg-surface transition-all duration-200 cursor-pointer">
-            <h3 class="text-lg font-bold">{{ table.title }}</h3>
-            <p>Rulebook: {{ table.rulebook }}</p>
-            <p class="text-sm text-gray-500">Access Code: {{ table.accessCode }}</p>
-          </a>
+      @if (ownedTables.length === 0) {
+        <div class="flex flex-col items-center justify-center p-8 border-2 border-dashed border-primary rounded-lg">
+          <p class="mb-4 text-text-muted">No owned tables found. Create one to get started!</p>
         </div>
-      </div>
+      } @else {
+        <div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <a *ngFor="let table of ownedTables" [routerLink]="['/game', table.id]" class="block bg-background p-4 rounded-lg shadow-sm hover:shadow-lg hover:bg-surface transition-all duration-200 cursor-pointer">
+              <h3 class="text-lg font-bold">{{ table.title }}</h3>
+              <p>Rulebook: {{ table.rulebook }}</p>
+              <p class="text-sm text-gray-500">Access Code: {{ table.accessCode }}</p>
+            </a>
+          </div>
+        </div>
+      }
     </div>
 
     <!-- Joined Tables Section -->
@@ -34,18 +39,21 @@
         <h2 class="text-xl font-semibold">Your Joined Tables</h2>
         <button (click)="openModal()" class="bg-primary text-white px-4 py-2 rounded-md hover:bg-primary-dark transition-colors">Join a Table</button>
       </div>
-      <div *ngIf="joinedTables.length === 0" class="flex flex-col items-center justify-center p-8 border-2 border-dashed border-primary rounded-lg">
-        <p class="mb-4 text-text-muted">No joined tables found. Join one to get started!</p>
-      </div>
-      <div *ngIf="joinedTables.length > 0">
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <a *ngFor="let table of joinedTables" [routerLink]="['/game', table.id]" class="block bg-background p-4 rounded-lg shadow-sm hover:shadow-lg hover:bg-surface transition-all duration-200 cursor-pointer">
-            <h3 class="text-lg font-bold">{{ table.title }}</h3>
-            <p>Rulebook: {{ table.rulebook }}</p>
-            <p class="text-sm text-gray-500">Access Code: {{ table.accessCode }}</p>
-          </a>
+      @if (joinedTables.length === 0) {
+        <div class="flex flex-col items-center justify-center p-8 border-2 border-dashed border-primary rounded-lg">
+          <p class="mb-4 text-text-muted">No joined tables found. Join one to get started!</p>
         </div>
-      </div>
+      } @else {
+        <div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <a *ngFor="let table of joinedTables" [routerLink]="['/game', table.id]" class="block bg-background p-4 rounded-lg shadow-sm hover:shadow-lg hover:bg-surface transition-all duration-200 cursor-pointer">
+              <h3 class="text-lg font-bold">{{ table.title }}</h3>
+              <p>Rulebook: {{ table.rulebook }}</p>
+              <p class="text-sm text-gray-500">Access Code: {{ table.accessCode }}</p>
+            </a>
+          </div>
+        </div>
+      }
     </div>
   </div>
 
@@ -55,29 +63,34 @@
       <h2 class="text-xl font-semibold">Your Characters</h2>
       
     </div>
-    <div *ngIf="myCharacters.length === 0" class="flex flex-col items-center justify-center p-8 border-2 border-dashed border-primary rounded-lg">
-      <p class="mb-4 text-text-muted">No characters found. Create one to get started!</p>
-    </div>
-    <div *ngIf="myCharacters.length > 0">
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        <div *ngFor="let character of myCharacters" class="bg-background p-4 rounded-lg shadow-sm">
-          <h3 class="text-lg font-bold">{{ character.name }}</h3>
-          <p>Health: {{ character.health }}</p>
-          <p>Mana: {{ character.mana }}</p>
+    @if (myCharacters.length === 0) {
+      <div class="flex flex-col items-center justify-center p-8 border-2 border-dashed border-primary rounded-lg">
+        <p class="mb-4 text-text-muted">No characters found. Create one to get started!</p>
+      </div>
+    } @else {
+      <div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div *ngFor="let character of myCharacters" class="bg-background p-4 rounded-lg shadow-sm">
+            <h3 class="text-lg font-bold">{{ character.name }}</h3>
+            <p>Health: {{ character.health }}</p>
+            <p>Mana: {{ character.mana }}</p>
+          </div>
         </div>
       </div>
-    </div>
+    }
   </div>
 </div>
 
-<app-modal
-  [isOpen]="isModalOpen"
-  (closeModal)="closeModal()"
-  (submitModal)="createCharacter($event)"
-></app-modal>
+@if (isModalOpen) {
+  <app-modal
+    [isOpen]="isModalOpen"
+    (closeModal)="closeModal()"
+    (submitModal)="createCharacter($event)" />
+}
 
-<app-create-table-modal
-  [isOpen]="isCreateTableModalOpen"
-  (closeModal)="closeCreateTableModal()"
-  (submitModal)="createTable($event)"
-></app-create-table-modal>
+@if (isCreateTableModalOpen) {
+  <app-create-table-modal
+    [isOpen]="isCreateTableModalOpen"
+    (closeModal)="closeCreateTableModal()"
+    (submitModal)="createTable($event)" />
+}

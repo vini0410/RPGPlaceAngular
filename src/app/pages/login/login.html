@@ -3,15 +3,12 @@
     <h1 class="text-2xl font-bold text-center text-text">Login</h1>
     <form [formGroup]="loginForm" (ngSubmit)="login()" class="space-y-6">
       <div class="form-field w-full">
-        <label
-          *ngIf="
-            loginForm.get('email')?.value ||
-            loginForm.get('email')?.dirty ||
-            loginForm.get('email')?.touched
-          "
-          class="block text-text text-sm font-bold mb-2"
-          >Email</label
-        >
+        @if (loginForm.get('email')?.value || loginForm.get('email')?.dirty || loginForm.get('email')?.touched) {
+          <label
+            class="block text-text text-sm font-bold mb-2"
+            >Email</label
+          >
+        }
         <input
           [ngClass]="{
             'border-red-500 text-red-500':
@@ -23,27 +20,22 @@
           formControlName="email"
           placeholder="Email"
         />
-        <div
-          *ngIf="
-            loginForm.get('email')?.invalid &&
-            (loginForm.get('email')?.dirty || loginForm.get('email')?.touched)
-          "
-          class="text-red-500 text-xs italic mt-1"
-        >
-          <div *ngIf="loginForm.get('email')?.errors?.['required']">Email is required.</div>
-          <div *ngIf="loginForm.get('email')?.errors?.['email']">Email is invalid.</div>
-        </div>
+        @if (loginForm.get('email')?.invalid && (loginForm.get('email')?.dirty || loginForm.get('email')?.touched)) {
+          <div
+            class="text-red-500 text-xs italic mt-1"
+          >
+            @if (loginForm.get('email')?.errors?.['required']) {<div>Email is required.</div>}
+            @if (loginForm.get('email')?.errors?.['email']) {<div>Email is invalid.</div>}
+          </div>
+        }
       </div>
       <div class="form-field w-full">
-        <label
-          *ngIf="
-            loginForm.get('password')?.value ||
-            loginForm.get('password')?.dirty ||
-            loginForm.get('password')?.touched
-          "
-          class="block text-text text-sm font-bold mb-2"
-          >Password</label
-        >
+        @if (loginForm.get('password')?.value || loginForm.get('password')?.dirty || loginForm.get('password')?.touched) {
+          <label
+            class="block text-text text-sm font-bold mb-2"
+            >Password</label
+          >
+        }
         <input
           [ngClass]="{
             'border-red-500 text-red-500':
@@ -55,15 +47,13 @@
           formControlName="password"
           placeholder="Password"
         />
-        <div
-          *ngIf="
-            loginForm.get('password')?.invalid &&
-            (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)
-          "
-          class="text-red-500 text-xs italic mt-1"
-        >
-          <div *ngIf="loginForm.get('password')?.errors?.['required']">Password is required.</div>
-        </div>
+        @if (loginForm.get('password')?.invalid && (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)) {
+          <div
+            class="text-red-500 text-xs italic mt-1"
+          >
+            @if (loginForm.get('password')?.errors?.['required']) {<div>Password is required.</div>}
+          </div>
+        }
       </div>
       <button
         type="submit"

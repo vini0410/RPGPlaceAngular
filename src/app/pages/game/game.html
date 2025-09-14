@@ -1,20 +1,26 @@
 <div class="h-full p-4 gap-4 overflow-hidden relative 2xl:grid 2xl:grid-cols-[400px_1fr_400px] text-text">
   <!-- Backdrop for mobile panel view -->
-  <div *ngIf="(isLeftSidebarOpen || isRightSidebarOpen) && isSmallScreen" (click)="isLeftSidebarOpen = false; isRightSidebarOpen = false" class="fixed inset-0 bg-black/60 z-30 2xl:hidden" aria-hidden="true"></div>
+  @if ((isLeftSidebarOpen || isRightSidebarOpen) && isSmallScreen) {
+    <div (click)="isLeftSidebarOpen = false; isRightSidebarOpen = false" class="fixed inset-0 bg-black/60 z-30 2xl:hidden" aria-hidden="true"></div>
+  }
 
   <!-- Mobile Toggle Buttons -->
-  <button *ngIf="isSmallScreen" (click)="toggleLeftSidebar()" class="2xl:hidden fixed top-1/2 -translate-y-1/2 left-4 z-40 rounded-full shadow-lg p-2 bg-primary text-text">
-    <!-- Heroicon: user-circle -->
-    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
-    </svg>
-  </button>
-  <button *ngIf="isSmallScreen" (click)="toggleRightSidebar()" class="2xl:hidden fixed top-1/2 -translate-y-1/2 right-4 z-40 rounded-full shadow-lg p-2 bg-primary text-text">
-    <!-- Heroicon: envelope -->
-    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
-    </svg>
-  </button>
+  @if (isSmallScreen) {
+    <button (click)="toggleLeftSidebar()" class="2xl:hidden fixed top-1/2 -translate-y-1/2 left-4 z-40 rounded-full shadow-lg p-2 bg-primary text-text">
+      <!-- Heroicon: user-circle -->
+      <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
+      </svg>
+    </button>
+  }
+  @if (isSmallScreen) {
+    <button (click)="toggleRightSidebar()" class="2xl:hidden fixed top-1/2 -translate-y-1/2 right-4 z-40 rounded-full shadow-lg p-2 bg-primary text-text">
+      <!-- Heroicon: envelope -->
+      <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+      </svg>
+    </button>
+  }
 
   <!-- Characters Panel (Left) -->
   <aside 
@@ -23,14 +29,16 @@
       'hidden': isSmallScreen && !isLeftSidebarOpen,
       'flex fixed inset-0 portrait:w-5/6 landscape:w-1/2': isSmallScreen && isLeftSidebarOpen
     }">
-    <button (click)="isLeftSidebarOpen = false" class="2xl:hidden absolute top-2 right-2 text-text-muted hover:text-primary">
-      <!-- Heroicon: x-mark -->
-      <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-    </button>
+    @if (isLeftSidebarOpen) {
+      <button (click)="isLeftSidebarOpen = false" class="2xl:hidden absolute top-2 right-2 text-text-muted hover:text-primary">
+        <!-- Heroicon: x-mark -->
+        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+      </button>
+    }
     <div class="p-4 flex flex-col h-full">
       <h2 class="text-xl font-bold mb-4 flex-shrink-0">Characters</h2>
       <div class="overflow-y-auto flex-grow">
-        <div *ngIf="characters().length === 0" class="text-text-muted">No characters yet.</div>
+        @if (characters().length === 0) {<div class="text-text-muted">No characters yet.</div>}
         <div class="space-y-4">
           @for (char of characters(); track char.id) {
             <div class="bg-background shadow-md rounded-lg p-4 border border-primary">

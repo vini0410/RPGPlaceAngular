@@ -1,10 +1,12 @@
-<div *ngIf="isOpen" class="fixed inset-0 flex items-center justify-center bg-[rgba(0,0,0,0.5)]" (click)="onClose()">
-  <div class="bg-surface text-text p-8 rounded-lg shadow-lg" (click)="$event.stopPropagation()">
-    <h2 class="text-2xl font-bold mb-4">Enter Table Code</h2>
-    <input type="text" [(ngModel)]="tableCode" placeholder="Enter table code" class="w-full p-2 border border-gray-300 rounded mb-4 bg-surface text-text">
-    <div class="flex justify-end">
-      <button (click)="onClose()" class="bg-gray-300 text-gray-800 px-4 py-2 rounded mr-2">Cancel</button>
-      <button (click)="onSubmit()" class="bg-primary text-white px-4 py-2 rounded">Create</button>
+@if (isOpen) {
+  <div class="fixed inset-0 flex items-center justify-center bg-[rgba(0,0,0,0.5)]" (click)="onClose()">
+    <div class="bg-surface text-text p-8 rounded-lg shadow-lg" (click)="$event.stopPropagation()">
+      <h2 class="text-2xl font-bold mb-4">Enter Table Code</h2>
+      <input type="text" [(ngModel)]="tableCode" placeholder="Enter table code" class="w-full p-2 border border-gray-300 rounded mb-4 bg-surface text-text">
+      <div class="flex justify-end">
+        <button (click)="onClose()" class="bg-gray-300 text-gray-800 px-4 py-2 rounded mr-2">Cancel</button>
+        <button (click)="onSubmit()" class="bg-primary text-white px-4 py-2 rounded">Create</button>
+      </div>
     </div>
   </div>
-</div>
+}
