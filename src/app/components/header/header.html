@@ -3,6 +3,9 @@
     <h1 class="text-2xl font-bold">
       <a routerLink="/">RPGPlace</a>
     </h1>
+    <div class="flex-grow text-center">
+      <h1 *ngIf="tableName" class="text-xl font-semibold">{{ tableName | titlecase }}</h1>
+    </div>
     <nav class="flex items-center">
       <ul class="flex space-x-4 items-center">
         <li *ngIf="!isAuthenticated">

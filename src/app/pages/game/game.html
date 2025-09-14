@@ -1,59 +1,63 @@
-<div class="h-full p-4 gap-4 overflow-hidden relative 2xl:grid 2xl:grid-cols-[400px_1fr_400px]">
+<div class="h-full p-4 gap-4 overflow-hidden relative 2xl:grid 2xl:grid-cols-[400px_1fr_400px] text-text">
   <!-- Backdrop for mobile panel view -->
   <div *ngIf="(isLeftSidebarOpen || isRightSidebarOpen) && isSmallScreen" (click)="isLeftSidebarOpen = false; isRightSidebarOpen = false" class="fixed inset-0 bg-black/60 z-30 2xl:hidden" aria-hidden="true"></div>
 
   <!-- Mobile Toggle Buttons -->
-  <button *ngIf="isSmallScreen" (click)="toggleLeftSidebar()" class="2xl:hidden fixed top-1/2 -translate-y-1/2 left-0 z-40 rounded-l-none shadow-lg p-2 bg-gray-700 text-white">
-    <!-- Heroicon: users -->
-    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-4.67c.12-.318.232-.656.328-1.003M7.86 15.75l-.223.044a4.125 4.125 0 01-4.121-.952 9.337 9.337 0 01-1.588-3.951 9.337 9.337 0 011.588-3.951 4.125 4.125 0 014.121-.952 9.337 9.337 0 013.951 1.588 4.125 4.125 0 01.952 4.121 9.337 9.337 0 01-3.951 1.588 4.125 4.125 0 01-.952 4.121z" /></svg>
+  <button *ngIf="isSmallScreen" (click)="toggleLeftSidebar()" class="2xl:hidden fixed top-1/2 -translate-y-1/2 left-4 z-40 rounded-full shadow-lg p-2 bg-primary text-text">
+    <!-- Heroicon: user-circle -->
+    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
+    </svg>
   </button>
-  <button *ngIf="isSmallScreen" (click)="toggleRightSidebar()" class="2xl:hidden fixed top-1/2 -translate-y-1/2 right-0 z-40 rounded-r-none shadow-lg p-2 bg-gray-700 text-white">
-    <!-- Heroicon: chat-bubble-left-right -->
-    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193l-3.722.465c-.54.067-.994.499-1.121 1.034a8.053 8.053 0 01-1.732 2.186 8.053 8.053 0 01-2.186 1.732c-.535.127-1.034.581-1.034 1.121l-.465 3.722c-.093 1.133-1.057 1.98-2.193 1.98h-4.286c-.97 0-1.813-.616-2.097-1.5l-.31-.93c-.079-.236-.275-.431-.51-.51l-.93-.31c-.97-.324-1.5-1.25-1.5-2.097v-4.286c0-1.136.847-2.1 1.98-2.193l3.722-.465c.54-.067.994-.499 1.121-1.034a8.053 8.053 0 011.732-2.186 8.053 8.053 0 012.186-1.732c.535-.127 1.034-.581 1.034-1.121l.465-3.722c.093-1.133 1.057-1.98 2.193-1.98h4.286c.97 0 1.813.616 2.097 1.5l.31.93c.079-.236.275-.431-.51-.51l.93.31z" /></svg>
+  <button *ngIf="isSmallScreen" (click)="toggleRightSidebar()" class="2xl:hidden fixed top-1/2 -translate-y-1/2 right-4 z-40 rounded-full shadow-lg p-2 bg-primary text-text">
+    <!-- Heroicon: envelope -->
+    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+    </svg>
   </button>
 
   <!-- Characters Panel (Left) -->
   <aside 
-    class="bg-gray-800 rounded-lg border-gray-700 flex-col z-50 2xl:flex 2xl:w-[400px]"
+    class="bg-surface rounded-lg border-primary flex-col z-50 2xl:flex 2xl:w-[400px]"
     [ngClass]="{
       'hidden': isSmallScreen && !isLeftSidebarOpen,
       'flex fixed inset-0 portrait:w-5/6 landscape:w-1/2': isSmallScreen && isLeftSidebarOpen
     }">
-    <button (click)="isLeftSidebarOpen = false" class="2xl:hidden absolute top-2 right-2 text-gray-400 hover:text-white">
+    <button (click)="isLeftSidebarOpen = false" class="2xl:hidden absolute top-2 right-2 text-text-muted hover:text-primary">
       <!-- Heroicon: x-mark -->
       <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
     </button>
     <div class="p-4 flex flex-col h-full">
       <h2 class="text-xl font-bold mb-4 flex-shrink-0">Characters</h2>
       <div class="overflow-y-auto flex-grow">
-        <div *ngIf="characters().length === 0" class="text-gray-400">No characters yet.</div>
+        <div *ngIf="characters().length === 0" class="text-text-muted">No characters yet.</div>
         <div class="space-y-4">
           @for (char of characters(); track char.id) {
-            <div class="bg-gray-700 shadow-md rounded-lg p-4 border border-gray-600">
-              <h3 class="text-lg font-semibold mb-2 text-white">{{ char.name }}</h3>
+            <div class="bg-background shadow-md rounded-lg p-4 border border-primary">
+              <h3 class="text-lg font-semibold mb-2 text-text">{{ char.name }}</h3>
               <div class="grid grid-cols-2 gap-4">
                 <div>
-                  <label [for]="'health-' + char.id" class="block text-sm font-medium text-gray-300">Health</label>
-                  <input type="number" [id]="'health-' + char.id" [(ngModel)]="char.health" (change)="onAttributeChange(char)" [disabled]="!canEdit(char)" class="mt-1 block w-full rounded-md bg-gray-600 border-gray-500 text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm disabled:opacity-50">
+                  <label [for]="'health-' + char.id" class="block text-sm font-medium text-text-muted">Health</label>
+                  <input type="number" [id]="'health-' + char.id" [(ngModel)]="char.health" (change)="onAttributeChange(char)" [disabled]="!canEdit(char)" class="mt-1 block w-full rounded-md bg-background border-primary text-text shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm disabled:opacity-50">
                 </div>
                 <div>
-                  <label [for]="'mana-' + char.id" class="block text-sm font-medium text-gray-300">Mana</label>
-                  <input type="number" [id]="'mana-' + char.id" [(ngModel)]="char.mana" (change)="onAttributeChange(char)" [disabled]="!canEdit(char)" class="mt-1 block w-full rounded-md bg-gray-600 border-gray-500 text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm disabled:opacity-50">
+                  <label [for]="'mana-' + char.id" class="block text-sm font-medium text-text-muted">Mana</label>
+                  <input type="number" [id]="'mana-' + char.id" [(ngModel)]="char.mana" (change)="onAttributeChange(char)" [disabled]="!canEdit(char)" class="mt-1 block w-full rounded-md bg-background border-primary text-text shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm disabled:opacity-50">
                 </div>
                 <div>
-                  <label [for]="'strength-' + char.id" class="block text-sm font-medium text-gray-300">Strength</label>
-                  <input type="number" [id]="'strength-' + char.id" [(ngModel)]="char.strength" (change)="onAttributeChange(char)" [disabled]="!canEdit(char)" class="mt-1 block w-full rounded-md bg-gray-600 border-gray-500 text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm disabled:opacity-50">
+                  <label [for]="'strength-' + char.id" class="block text-sm font-medium text-text-muted">Strength</label>
+                  <input type="number" [id]="'strength-' + char.id" [(ngModel)]="char.strength" (change)="onAttributeChange(char)" [disabled]="!canEdit(char)" class="mt-1 block w-full rounded-md bg-background border-primary text-text shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm disabled:opacity-50">
                 </div>
                 <div>
-                  <label [for]="'agility-' + char.id" class="block text-sm font-medium text-gray-300">Agility</label>
-                  <input type="number" [id]="'agility-' + char.id" [(ngModel)]="char.agility" (change)="onAttributeChange(char)" [disabled]="!canEdit(char)" class="mt-1 block w-full rounded-md bg-gray-600 border-gray-500 text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm disabled:opacity-50">
+                  <label [for]="'agility-' + char.id" class="block text-sm font-medium text-text-muted">Agility</label>
+                  <input type="number" [id]="'agility-' + char.id" [(ngModel)]="char.agility" (change)="onAttributeChange(char)" [disabled]="!canEdit(char)" class="mt-1 block w-full rounded-md bg-background border-primary text-text shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm disabled:opacity-50">
                 </div>
                 <div>
-                  <label [for]="'intelligence-' + char.id" class="block text-sm font-medium text-gray-300">Intelligence</label>
-                  <input type="number" [id]="'intelligence-' + char.id" [(ngModel)]="char.intelligence" (change)="onAttributeChange(char)" [disabled]="!canEdit(char)" class="mt-1 block w-full rounded-md bg-gray-600 border-gray-500 text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm disabled:opacity-50">
+                  <label [for]="'intelligence-' + char.id" class="block text-sm font-medium text-text-muted">Intelligence</label>
+                  <input type="number" [id]="'intelligence-' + char.id" [(ngModel)]="char.intelligence" (change)="onAttributeChange(char)" [disabled]="!canEdit(char)" class="mt-1 block w-full rounded-md bg-background border-primary text-text shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm disabled:opacity-50">
                 </div>
               </div>
-              <div class="text-xs text-gray-400 mt-2">Owner: {{ char.userId }}</div>
+              <div class="text-xs text-text-muted mt-2">Owner: {{ char.ownerName }}</div>
             </div>
           }
         </div>
@@ -63,13 +67,13 @@
 
   <!-- Main Content Area (Whiteboard) -->
   <section class="z-0 flex items-center justify-center">
-    <div class="relative w-[900px] h-[600px] bg-gray-800 p-2 rounded-lg shadow-md flex flex-col items-center">
+    <div class="relative w-[900px] h-[600px] bg-surface p-2 rounded-lg shadow-md flex flex-col items-center">
         
         <div class="flex items-center mb-4">
-            <label for="colorPicker" class="mr-2 text-white">Color:
+            <label for="colorPicker" class="mr-2 text-text">Color:
               <input id="colorPicker" type="color" [(ngModel)]="drawColor" class="w-8 h-8">
             </label>
-            <label for="brushSize" class="ml-4 mr-2 text-white">Size:
+            <label for="brushSize" class="ml-4 mr-2 text-text">Size:
               <input id="brushSize" type="range" min="1" max="20" [(ngModel)]="brushSize" class="w-32">
             </label>
         </div>
@@ -79,40 +83,40 @@
 
   <!-- Chat Panel (Right) -->
   <aside 
-    class="bg-gray-800 rounded-lg border-gray-700 flex-col z-50 2xl:flex 2xl:w-[400px]"
+    class="bg-surface rounded-lg border-primary flex-col z-50 2xl:flex 2xl:w-[400px]"
     [ngClass]="{
       'hidden': isSmallScreen && !isRightSidebarOpen,
       'flex fixed inset-0 portrait:w-5/6 landscape:w-1/2': isSmallScreen && isRightSidebarOpen
     }"
     [style.left]="isSmallScreen ? 'auto' : ''"
     [style.right]="isSmallScreen ? '0' : ''">
-    <button (click)="isRightSidebarOpen = false" class="2xl:hidden absolute top-2 left-2 text-gray-400 hover:text-white">
+    <button (click)="isRightSidebarOpen = false" class="2xl:hidden absolute top-2 left-2 text-text-muted hover:text-primary">
       <!-- Heroicon: x-mark -->
       <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
     </button>
     <div class="p-4 flex flex-col h-full">
       <h2 class="text-xl font-bold mb-4 flex-shrink-0">Chat</h2>
-      <div class="flex-grow bg-gray-700 rounded-lg p-4 flex flex-col">
+      <div class="flex-grow bg-background rounded-lg p-4 flex flex-col">
         <div class="flex-grow overflow-y-auto mb-4 space-y-4">
           <div *ngFor="let message of messages" class="flex" [ngClass]="{
             'justify-end': message.senderId === currentUserId,
             'justify-start': message.senderId !== currentUserId
           }">
             <div class="rounded-lg p-3 max-w-xs" [ngClass]="{
-              'bg-blue-500 text-white': message.senderId === currentUserId,
-              'bg-gray-600 text-gray-200': message.senderId !== currentUserId
+              'bg-primary text-text': message.senderId === currentUserId,
+              'bg-surface text-text': message.senderId !== currentUserId
             }">
               <div class="text-xs font-bold mb-1">{{ message.characterName }} - {{ message.senderName }}</div>
               <p class="text-sm">{{ message.text }}</p>
-              <div class="text-xs text-gray-400 mt-1 text-right">{{ message.timestamp | date:'shortTime' }}</div>
+              <div class="text-xs text-text-muted mt-1 text-right">{{ message.timestamp | date:'shortTime' }}</div>
             </div>
           </div>
         </div>
         <div class="flex-shrink-0">
           <form (ngSubmit)="sendMessage()">
             <div class="flex">
-              <input type="text" [(ngModel)]="newMessage" name="newMessage" class="flex-grow bg-gray-600 rounded-l-lg p-2 text-white focus:outline-none" placeholder="Type a message...">
-              <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-r-lg">
+              <input type="text" [(ngModel)]="newMessage" name="newMessage" class="flex-grow bg-background rounded-l-lg p-2 text-text focus:outline-none" placeholder="Type a message...">
+              <button type="submit" class="bg-primary hover:bg-primary-dark text-text font-bold py-2 px-4 rounded-r-lg">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
               </button>
             </div>

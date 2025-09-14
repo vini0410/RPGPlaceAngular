@@ -5,14 +5,16 @@ import {
   CharacterResponseDTO,
   CharacterUpdateDTO,
 } from '../../models/character.model';
-import { fromEvent, Subscription } from 'rxjs';
+import { forkJoin, fromEvent, of, Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { TableService } from '../../services/table.service';
 import { UserResponseDTO } from '../../models/user.model';
 import { TableResponseDTO } from '../../models/table.model';
-import { exhaustMap, takeUntil } from 'rxjs/operators';
+import { exhaustMap, map, switchMap, takeUntil } from 'rxjs/operators';
+import { UserService } from '../../services/user.service';
+import { HeaderService } from '../../services/header.service';
 
 export interface DrawEventDTO {
   x1: number;
@@ -35,6 +37,10 @@ export interface ChatMessageDTO {
   text: string;
 }
 
+export interface CharacterWithOwner extends CharacterResponseDTO {
+  ownerName: string;
+}
+
 @Component({
   selector: 'app-game',
   standalone: true,
@@ -47,13 +53,15 @@ export class GameComponent implements OnInit, OnDestroy, AfterViewInit {
   private route = inject(ActivatedRoute);
   private authService = inject(AuthService);
   private tableService = inject(TableService);
+  private userService = inject(UserService);
+  private headerService = inject(HeaderService);
 
   private subscriptions = new Subscription();
   tableId: string | null = null;
   currentUser: UserResponseDTO | null = null;
   table: TableResponseDTO | null = null;
 
-  characters = signal<CharacterResponseDTO[]>([]);
+  characters = signal<CharacterWithOwner[]>([]);
 
   // Whiteboard properties
   @ViewChild('canvas', { static: false }) canvasRef!: ElementRef<HTMLCanvasElement>;
@@ -82,6 +90,7 @@ export class GameComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.tableService.getTableById(this.tableId).subscribe((table) => {
       this.table = table;
+      this.headerService.setTableName(table.title);
     });
 
     this.currentUserId = this.currentUser ? this.currentUser.id : null;
@@ -108,9 +117,10 @@ export class GameComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
     this.webSocketService.disconnect();
+    this.headerService.setTableName(null);
   }
 
-  canEdit(character: CharacterResponseDTO): boolean {
+  canEdit(character: CharacterWithOwner): boolean {
     if (!this.currentUser || !this.table) {
       return false;
     }
@@ -122,24 +132,63 @@ export class GameComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private setupSubscriptions(): void {
     if (!this.tableId) return;
-
+  
     // Character subscriptions
     const listTopic = `/user/queue/table/${this.tableId}/characters`;
     this.subscriptions.add(
-      this.webSocketService.subscribe<CharacterResponseDTO[]>(listTopic).subscribe(characters => {
-        this.characters.set(characters);
+      this.webSocketService.subscribe<CharacterResponseDTO[]>(listTopic).pipe(
+        switchMap(characters => {
+          if (characters.length === 0) {
+            return of([]);
+          }
+          const userRequests = characters.map(char =>
+            this.userService.getUserById(char.userId).pipe(
+              map(user => ({ ...char, ownerName: user.name }))
+            )
+          );
+          return forkJoin(userRequests);
+        })
+      ).subscribe(charactersWithOwners => {
+        if (this.currentUser && this.table && this.currentUser.id !== this.table.masterId) {
+          const myCharIndex = charactersWithOwners.findIndex(c => c.userId === this.currentUser!.id);
+          if (myCharIndex > -1) {
+            const myChar = charactersWithOwners.splice(myCharIndex, 1)[0];
+            charactersWithOwners.unshift(myChar);
+          }
+        }
+        this.characters.set(charactersWithOwners);
       })
     );
-
+  
     const updateTopic = `/topic/table/${this.tableId}/characters`;
     this.subscriptions.add(
-      this.webSocketService.subscribe<CharacterResponseDTO>(updateTopic).subscribe(updatedChar => {
-        this.characters.update(chars =>
-          chars.map(c => c.id === updatedChar.id ? updatedChar : c)
-        );
+      this.webSocketService.subscribe<CharacterResponseDTO>(updateTopic).pipe(
+        switchMap(updatedChar => 
+          this.userService.getUserById(updatedChar.userId).pipe(
+            map(user => ({ ...updatedChar, ownerName: user.name }))
+          )
+        )
+      ).subscribe(updatedCharWithOwner => {
+        this.characters.update(chars => {
+          const existingCharIndex = chars.findIndex(c => c.id === updatedCharWithOwner.id);
+          if (existingCharIndex > -1) {
+            chars[existingCharIndex] = updatedCharWithOwner;
+          } else {
+            chars.push(updatedCharWithOwner);
+          }
+          
+          if (this.currentUser && this.table && this.currentUser.id !== this.table.masterId) {
+            const myCharIndex = chars.findIndex(c => c.userId === this.currentUser!.id);
+            if (myCharIndex > -1) {
+              const myChar = chars.splice(myCharIndex, 1)[0];
+              chars.unshift(myChar);
+            }
+          }
+          return [...chars];
+        });
       })
     );
-
+  
     // Whiteboard subscription
     const drawTopic = `/topic/table/${this.tableId}/draw`;
     this.subscriptions.add(
@@ -147,7 +196,7 @@ export class GameComponent implements OnInit, OnDestroy, AfterViewInit {
         this.drawOnCanvas(event.x1, event.y1, event.x2, event.y2, event.color, event.size);
       })
     );
-
+  
     // Chat subscription
     const chatTopic = `/topic/table/${this.tableId}/chat`;
     this.subscriptions.add(
@@ -163,7 +212,7 @@ export class GameComponent implements OnInit, OnDestroy, AfterViewInit {
     this.webSocketService.send(destination, {});
   }
 
-  onAttributeChange(character: CharacterResponseDTO): void {
+  onAttributeChange(character: CharacterWithOwner): void {
     if (!this.tableId) return;
 
     const updateDTO: CharacterUpdateDTO = {
