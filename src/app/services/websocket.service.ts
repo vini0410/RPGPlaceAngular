@@ -26,7 +26,7 @@ export class WebSocketService {
       const wsUrl = environment.apiUrl.replace(/^http/, 'ws');
       
       this.stompClient = new Client({
-        brokerURL: `${wsUrl}/ws?token=${token}`,
+        brokerURL: `${wsUrl}/ws`,
         connectHeaders: {
           Authorization: `Bearer ${token}`,
         },

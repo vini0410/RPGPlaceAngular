@@ -42,7 +42,7 @@ export class AuthService {
     localStorage.removeItem('jwt_token');
     localStorage.removeItem('currentUser');
     this.isAuthenticatedSignal.set(false);
-    return this.http.post<any>(`${this.API_URL}/logout`, {});
+    return this.http.post<any>(`${environment.apiUrl}/logout`, {});
   }
 
   getToken(): string | null {
