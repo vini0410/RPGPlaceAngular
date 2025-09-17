@@ -19,12 +19,7 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "target": "ES2022",
-    "module": "preserve",
-    "paths": {
-      "stompjs": [
-        "node_modules/stompjs/lib/stomp.js"
-      ]
-    }
+    "module": "preserve"
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
