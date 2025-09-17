@@ -12,7 +12,7 @@ import { environment } from '../../environments/environment';
   providedIn: 'root',
 })
 export class CharacterService {
-  private readonly API_URL = `${environment.apiUrl}/api/characters`;
+  private readonly API_URL = `${environment.apiUrl}/characters`;
 
   constructor(private http: HttpClient) {}
 
