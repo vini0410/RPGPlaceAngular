@@ -13,6 +13,10 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
+            "allowedCommonJsDependencies": [
+              "sockjs-client",
+              "stompjs"
+            ],
             "browser": "src/main.ts",
             "polyfills": [
               "zone.js"

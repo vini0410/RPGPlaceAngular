@@ -38,7 +38,7 @@ export class MyAccount implements OnInit {
         name: this.editableUser.name,
         email: this.editableUser.email
       };
-      this.userService.updateUser(this.currentUser.id, updatedUser).subscribe({
+      this.userService.updateUser(this.currentUser.id, updateUserRequest).subscribe({
         next: (response) => {
           this.notificationService.showSuccess('Account updated successfully!');
           this.authService.setCurrentUser(response);

@@ -56,9 +56,3 @@ export class AuthService {
     localStorage.setItem('currentUser', JSON.stringify(user));
   }
 }
-r));
-  }
-}
-rage.setItem('currentUser', JSON.stringify(user));
-  }
-}

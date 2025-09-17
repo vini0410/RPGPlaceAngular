@@ -14,27 +14,32 @@ export class WebSocketService {
 
   constructor(private authService: AuthService) {}
 
-  connect(): void {
-    if (this.stompClient && this.stompClient.connected) {
-      this.connectionSignal.set(true);
-      return;
-    }
+  connect(): Observable<boolean> {
+    return new Observable<boolean>(observer => {
+      if (this.stompClient && this.stompClient.connected) {
+        observer.next(true);
+        observer.complete();
+        return;
+      }
 
-    const token = this.authService.getToken();
+      const token = this.authService.getToken();
+      const serverUrl = `http://localhost:8080/ws?token=${token}`;
+      const ws = new SockJS(serverUrl);
+      this.stompClient = Stomp.over(ws);
 
-    const serverUrl = `http://localhost:8080/ws?token=${token}`;
-    const ws = new SockJS(serverUrl);
-    this.stompClient = Stomp.over(ws);
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
 
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
-
-    this.stompClient.connect(headers, (frame) => {
-      this.connectionSignal.set(true);
-    }, (error) => {
-      console.error('Connection error: ' + error);
-      this.connectionSignal.set(false);
+      this.stompClient.connect(headers, (frame) => {
+        this.connectionSignal.set(true);
+        observer.next(true);
+        observer.complete();
+      }, (error) => {
+        console.error('Connection error: ' + error);
+        this.connectionSignal.set(false);
+        observer.error(false);
+      });
     });
   }
 

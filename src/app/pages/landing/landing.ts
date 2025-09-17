@@ -16,6 +16,6 @@ export class LandingComponent implements OnInit {
 
   constructor(private authService: AuthService) {}
   ngOnInit(): void {
-    this.isLoggedIn = this.authService.getIsAuthenticated();
+    this.isLoggedIn = this.authService.isAuthenticated();
   }
 }

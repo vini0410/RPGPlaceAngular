@@ -15,7 +15,7 @@ export class App implements OnInit {
   constructor(private themeService: ThemeService) {}
 
   ngOnInit(): void {
-    this.themeService.isDarkTheme.subscribe(isDark => {
+    this.themeService.isDarkTheme.subscribe((isDark: boolean) => {
       this.isDarkTheme = isDark;
     });
   }

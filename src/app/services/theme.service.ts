@@ -6,6 +6,7 @@ import { Injectable, signal } from '@angular/core';
 export class ThemeService {
   private themeSignal = signal<'claro' | 'escuro'>('claro');
   public theme = this.themeSignal.asReadonly();
+  public isDarkTheme = computed(() => this.themeSignal() === 'escuro');
 
   constructor() {
     const storedTheme = localStorage.getItem('theme') as 'claro' | 'escuro' | null;

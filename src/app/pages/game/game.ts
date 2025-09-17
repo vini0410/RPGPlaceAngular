@@ -96,10 +96,15 @@ export class GameComponent implements OnInit, OnDestroy, AfterViewInit {
     this.currentUserId = this.currentUser ? this.currentUser.id : null;
 
     this.subscriptions.add(
-      this.webSocketService.connect().subscribe((isConnected) => {
-        if (isConnected) {
-          this.setupSubscriptions();
-          this.fetchAllCharacters();
+      this.webSocketService.connect().subscribe({
+        next: (isConnected) => {
+          if (isConnected) {
+            this.setupSubscriptions();
+            this.fetchAllCharacters();
+          }
+        },
+        error: () => {
+          console.error('Failed to connect to WebSocket');
         }
       })
     );
