@@ -5,11 +5,13 @@ import { RegisterRequestDTO } from '../models/auth.model';
 import { LoginResponseDTO } from '../models/login.model';
 import { UserResponseDTO } from '../models/user.model';
 
+import { environment } from '../../environments/environment';
+
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly API_URL = 'http://localhost:8080/auth';
+  private readonly API_URL = `${environment.apiUrl}/auth`;
   private isAuthenticatedSignal = signal<boolean>(false);
   public isAuthenticated = this.isAuthenticatedSignal.asReadonly();
 

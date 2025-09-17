@@ -1,3 +1,4 @@
+import { environment } from '../../environments/environment';
 import { Injectable, signal } from '@angular/core';
 import { Client, IMessage } from '@stomp/stompjs';
 import { Observable } from 'rxjs';
@@ -22,9 +23,10 @@ export class WebSocketService {
       }
 
       const token = this.authService.getToken();
+      const wsUrl = environment.apiUrl.replace(/^http/, 'ws');
       
       this.stompClient = new Client({
-        brokerURL: `ws://localhost:8080/ws?token=${token}`,
+        brokerURL: `${wsUrl}/ws?token=${token}`,
         connectHeaders: {
           Authorization: `Bearer ${token}`,
         },
