@@ -3,11 +3,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UserRequestDTO, UserResponseDTO, UserUpdateRequestDTO } from '../models/user.model';
 
+import { environment } from '../../environments/environment';
+
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private readonly API_URL = '/api/users';
+  private readonly API_URL = `${environment.apiUrl}/api/users`;
 
   constructor(private http: HttpClient) {}
 

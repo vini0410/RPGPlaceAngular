@@ -11,11 +11,13 @@ import {
   TableResponseDTO,
 } from '../models/table.model';
 
+import { environment } from '../../environments/environment';
+
 @Injectable({
   providedIn: 'root',
 })
 export class TableService {
-  private readonly API_URL = '/api/tables';
+  private readonly API_URL = `${environment.apiUrl}/api/tables`;
 
   constructor(private http: HttpClient) {}
 

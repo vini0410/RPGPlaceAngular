@@ -6,11 +6,13 @@ import {
   CharacterResponseDTO,
 } from '../models/character.model';
 
+import { environment } from '../../environments/environment';
+
 @Injectable({
   providedIn: 'root',
 })
 export class CharacterService {
-  private readonly API_URL = '/api/characters';
+  private readonly API_URL = `${environment.apiUrl}/api/characters`;
 
   constructor(private http: HttpClient) {}
 
