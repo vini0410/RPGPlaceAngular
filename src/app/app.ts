@@ -12,12 +12,12 @@ import { ThemeService } from './services/theme.service'; // Corrected import pat
 export class App implements OnInit {
   isDarkTheme: boolean = false;
 
-  constructor(private themeService: ThemeService) {}
+  constructor(private themeService: ThemeService, private injector: Injector) {}
 
   ngOnInit(): void {
-    this.themeService.isDarkTheme.subscribe((isDark: boolean) => {
-      this.isDarkTheme = isDark;
-    });
+    effect(() => {
+      this.isDarkTheme = this.themeService.isDarkTheme();
+    }, { injector: this.injector });
   }
 
   toggleTheme(): void {

@@ -9,6 +9,12 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "skipLibCheck": true,
+    "baseUrl": "./",
+    "paths": {
+      "stompjs": [
+        "./node_modules/stompjs/lib/stomp.js"
+      ]
+    },
     "isolatedModules": true,
     "experimentalDecorators": true,
     "importHelpers": true,
