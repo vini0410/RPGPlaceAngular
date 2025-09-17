@@ -40,7 +40,7 @@ export class AuthService {
     localStorage.removeItem('jwt_token');
     localStorage.removeItem('currentUser');
     this.isAuthenticatedSignal.set(false);
-    return this.http.post<any>(`http://localhost:8080/logout`, {});
+    return this.http.post<any>(`${this.API_URL}/logout`, {});
   }
 
   getToken(): string | null {
@@ -54,5 +54,11 @@ export class AuthService {
 
   setCurrentUser(user: UserResponseDTO): void {
     localStorage.setItem('currentUser', JSON.stringify(user));
+  }
+}
+r));
+  }
+}
+rage.setItem('currentUser', JSON.stringify(user));
   }
 }
