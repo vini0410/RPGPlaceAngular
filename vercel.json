@@ -3,7 +3,7 @@
         {
           "src": "package.json",
           "use": "@vercel/static-build",
-          "config": { "distDir": "dist/rpgplace-angular/browser" }
+          "config": { "distDir": "dist/RPGPlaceAngular" }
         }
       ],
       "routes": [
