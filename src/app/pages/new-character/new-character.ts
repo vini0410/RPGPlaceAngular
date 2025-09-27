@@ -7,7 +7,7 @@ import { CharacterService } from '../../services/character.service';
 import { AuthService } from '../../services/auth.service';
 import { TableResponseDTO } from '../../models/table.model';
 import { UserResponseDTO } from '../../models/user.model';
-import { NotificationService } from '../../services/notification.service';
+
 
 @Component({
   selector: 'app-new-character',
@@ -27,8 +27,7 @@ export class NewCharacterComponent implements OnInit {
     private fb: FormBuilder,
     private tableService: TableService,
     private characterService: CharacterService,
-    private authService: AuthService,
-    private notificationService: NotificationService
+    private authService: AuthService
   ) {
     this.characterForm = this.fb.group({
       name: ['', Validators.required],
@@ -45,14 +44,8 @@ export class NewCharacterComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       const tableCode = params['tableCode'];
       if (tableCode) {
-        this.tableService.joinTable({ accessCode: tableCode }).subscribe({
-          next: table => {
-            this.table = table;
-          },
-          error: () => {
-            this.notificationService.showError('Table not found!');
-            this.router.navigate(['/dashboard']);
-          }
+        this.tableService.joinTable({ accessCode: tableCode }).subscribe(table => {
+          this.table = table;
         });
       }
     });
