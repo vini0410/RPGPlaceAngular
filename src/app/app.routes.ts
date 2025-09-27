@@ -7,6 +7,7 @@ import { MyAccount } from './pages/my-account/my-account';
 import { authGuard } from './guards/auth-guard';
 import { GameComponent } from './pages/game/game';
 import { LandingComponent } from './pages/landing/landing';
+import { NewCharacterComponent } from './pages/new-character/new-character';
 
 export const routes: Routes = [
   { path: '', component: LandingComponent },
@@ -15,4 +16,5 @@ export const routes: Routes = [
   { path: 'dashboard', component: Dashboard, canActivate: [authGuard] },
   { path: 'my-account', component: MyAccount, canActivate: [authGuard] },
   { path: 'game/:id', component: GameComponent, canActivate: [authGuard] },
+  { path: 'new-character', component: NewCharacterComponent, canActivate: [authGuard] },
 ];

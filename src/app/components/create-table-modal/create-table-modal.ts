@@ -11,15 +11,16 @@ import { FormsModule } from '@angular/forms';
 export class CreateTableModal {
   @Input() isOpen = false;
   @Output() closeModal = new EventEmitter<void>();
-  @Output() submitModal = new EventEmitter<string>();
+  @Output() submitModal = new EventEmitter<{ tableName: string; rulebookName: string }>();
 
   tableName = '';
+  rulebookName = '';
 
   onClose() {
     this.closeModal.emit();
   }
 
   onSubmit() {
-    this.submitModal.emit(this.tableName);
+    this.submitModal.emit({ tableName: this.tableName, rulebookName: this.rulebookName });
   }
 }

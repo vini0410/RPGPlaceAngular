@@ -1,0 +1,45 @@
+<div class="container mx-auto p-4">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div>
+      <h2 class="text-2xl font-bold mb-4">Table Details</h2>
+      <div *ngIf="table" class="bg-surface p-6 rounded-lg shadow-lg">
+        <p><strong>Title:</strong> {{ table.title }}</p>
+        <p><strong>Rulebook:</strong> {{ table.rulebook }}</p>
+      </div>
+    </div>
+    <div>
+      <h2 class="text-2xl font-bold mb-4">Create Your Character</h2>
+      <form [formGroup]="characterForm" (ngSubmit)="createCharacter()" class="bg-surface p-6 rounded-lg shadow-lg">
+        <div class="mb-4">
+          <label for="name" class="block text-sm font-medium">Name</label>
+          <input type="text" id="name" formControlName="name" class="w-full p-2 border border-gray-300 rounded bg-input">
+        </div>
+        <div class="grid grid-cols-2 gap-4 mb-4">
+          <div>
+            <label for="health" class="block text-sm font-medium">Health</label>
+            <input type="number" id="health" formControlName="health" class="w-full p-2 border border-gray-300 rounded bg-input">
+          </div>
+          <div>
+            <label for="mana" class="block text-sm font-medium">Mana</label>
+            <input type="number" id="mana" formControlName="mana" class="w-full p-2 border border-gray-300 rounded bg-input">
+          </div>
+        </div>
+        <div class="grid grid-cols-3 gap-4 mb-4">
+          <div>
+            <label for="strength" class="block text-sm font-medium">Strength</label>
+            <input type="number" id="strength" formControlName="strength" class="w-full p-2 border border-gray-300 rounded bg-input">
+          </div>
+          <div>
+            <label for="agility" class="block text-sm font-medium">Agility</label>
+            <input type="number" id="agility" formControlName="agility" class="w-full p-2 border border-gray-300 rounded bg-input">
+          </div>
+          <div>
+            <label for="intelligence" class="block text-sm font-medium">Intelligence</label>
+            <input type="number" id="intelligence" formControlName="intelligence" class="w-full p-2 border border-gray-300 rounded bg-input">
+          </div>
+        </div>
+        <button type="submit" [disabled]="!characterForm.valid" class="w-full bg-primary text-white p-2 rounded">Create Character</button>
+      </form>
+    </div>
+  </div>
+</div>

@@ -40,6 +40,7 @@
         >
         @if (registerForm.get('password')?.invalid && (registerForm.get('password')?.dirty || registerForm.get('password')?.touched)) {<div class="text-red-500 text-xs italic mt-1">
           @if (registerForm.get('password')?.errors?.['required']) {<div>Password is required.</div>}
+          @if (registerForm.get('password')?.errors?.['minlength']) {<div>Password must be at least 8 characters long.</div>}
         </div>}
       </div>
       <button type="submit" [disabled]="registerForm.invalid" class="w-full px-4 py-2 font-medium text-white bg-primary rounded-md hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50">Register</button>

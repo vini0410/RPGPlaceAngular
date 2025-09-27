@@ -7,7 +7,7 @@ import { CharacterResponseDTO } from '../../models/character.model';
 import { Modal } from '../../components/modal/modal';
 import { CreateTableModal } from '../../components/create-table-modal/create-table-modal';
 import { AuthService } from '../../services/auth.service';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -28,7 +28,8 @@ export class Dashboard implements OnInit {
   constructor(
     private tableService: TableService,
     private characterService: CharacterService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -64,31 +65,7 @@ export class Dashboard implements OnInit {
   }
 
   createCharacter(tableCode: string) {
-    const currentUser = this.authService.getCurrentUser();
-    if (!currentUser) {
-      console.log('createCharacter: Current user is not logged in.');
-      // Handle case where user is not logged in
-      return;
-    }
-
-    this.tableService.joinTable({ accessCode: tableCode }).subscribe((table) => {
-      const characterData = {
-        name: 'New Character',
-        health: 100,
-        mana: 100,
-        strength: 10,
-        agility: 10,
-        intelligence: 10,
-        userId: currentUser.id,
-        tableId: table.id,
-      };
-
-      this.characterService.createCharacter(characterData).subscribe(() => {
-        this.loadCharacters();
-        this.loadTables();
-        this.closeModal();
-      });
-    });
+    this.router.navigate(['/new-character'], { queryParams: { tableCode } });
   }
 
   openCreateTableModal() {
@@ -99,7 +76,7 @@ export class Dashboard implements OnInit {
     this.isCreateTableModalOpen = false;
   }
 
-  createTable(tableName: string) {
+  createTable({ tableName, rulebookName }: { tableName: string, rulebookName: string }) {
     console.log('createTable method called with table name:', tableName);
     const currentUser = this.authService.getCurrentUser();
     if (!currentUser) {
@@ -110,7 +87,7 @@ export class Dashboard implements OnInit {
 
     const tableData = {
       title: tableName,
-      rulebook: 'D&D 5e',
+      rulebook: rulebookName,
       accessCode: Math.random().toString(36).substring(2, 8),
       masterId: currentUser.id,
     };

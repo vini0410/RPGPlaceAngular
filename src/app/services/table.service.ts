@@ -48,6 +48,7 @@ export class TableService {
     return this.http.get<TableResponseDTO>(`${this.API_URL}/${id}`);
   }
 
+
   updateTable(id: string, table: TableRequestDTO): Observable<TableResponseDTO> {
     return this.http.put<TableResponseDTO>(`${this.API_URL}/${id}`, table);
   }
